@@ -1,4 +1,4 @@
-namespace Reservation.API
+namespace SolutionReservation.API
 {
     public class Program
     {
