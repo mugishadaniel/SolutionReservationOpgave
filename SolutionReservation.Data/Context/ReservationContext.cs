@@ -17,7 +17,8 @@ namespace SolutionReservation.Data.Context
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer(@"Data Source=DANIEL\SQLEXPRESS;Initial Catalog=ReservationDB;Integrated Security=True;Pooling=False");
+            optionsBuilder.UseSqlServer(@"Data Source=DANIEL\SQLEXPRESS;Initial Catalog=ReservationDB;Integrated Security=True;Pooling=False;Encrypt=True;TrustServerCertificate=True
+");
         }
     }
 }

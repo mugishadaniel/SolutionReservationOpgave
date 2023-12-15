@@ -8,7 +8,7 @@ namespace SolutionReservation.Data.Model
 {
     public class RestaurantEF
     {
-        public RestaurantEF() { }
+        public int Id { get; set; }
         public string Name { get; set; }
         public LocationEF Location { get; set; }
         public string Keuken { get; set; }

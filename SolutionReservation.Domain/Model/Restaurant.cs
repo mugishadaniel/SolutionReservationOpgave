@@ -9,19 +9,27 @@ namespace SolutionReservation.Domain.Model
 {
     public class Restaurant
     {
-        public Restaurant(string name, Location location, string keuken, int phone, string email)
+        public Restaurant(int id,string name, Location location, string keuken, int phone, string email)
         {
+            SetId(id);
             SetName(name);
             SetLocation(location);
             SetKeuken(keuken);
             SetPhone(phone);
             SetEmail(email);
         }
+        public int Id { get; set; }
         public string Name { get; private set; }
         public Location Location { get; private set; }
         public string Keuken { get; private set; }
         public int Phone { get; private set; }
         public string Email { get; private set; }
+
+        public void SetId(int id)
+        {
+            if (id == 0) throw new RestaurantException("Id is invalid");
+            Id = id;
+        }
 
         public void SetName(string name)
         {

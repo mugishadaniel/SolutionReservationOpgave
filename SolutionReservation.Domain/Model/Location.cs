@@ -9,18 +9,25 @@ namespace SolutionReservation.Domain.Model
 {
     public class Location
     {
-        public Location(int postalCode, string municipality, string? street, string? houseNumber)
+        public Location(int id,int postalCode, string municipality, string? street, string? houseNumber)
         {
+            SetId(id);
             SetPostalCode(postalCode);
             SetMunicipality(municipality);
             Street = street;
             HouseNumber = houseNumber;
         }
-
+        public int Id { get; set; }
         public int PostalCode { get; private set; }
         public string Municipality { get; private set; }
         public string? Street { get; private set; }
         public string? HouseNumber { get; private set; }
+
+        public void SetId(int id)
+        {
+            if (id == 0) throw new LocationException("Id is invalid");
+            Id = id;
+        }
 
         public void SetPostalCode(int postalCode)
         {

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,7 +9,7 @@ namespace SolutionReservation.Data.Model
 {
     public class LocationEF
     {
-        public LocationEF() { }
+        public int Id { get; set; }
         public int PostalCode { get; set; }
         public string Municipality { get; set; }
         public string? Street { get; set; }

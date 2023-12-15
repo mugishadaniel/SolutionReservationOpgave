@@ -12,12 +12,12 @@ namespace SolutionReservation.Data.Mappers
     {
         public static Reservation ToReservation(ReservationEF reservationEF)
         {
-            return new Reservation(reservationEF.ReservationNumber, reservationEF.Restaurant, reservationEF.Contactperson, reservationEF.NumberofSeats, reservationEF.DateTime, reservationEF.TableNumber);
+            return new Reservation(reservationEF.ReservationNumber, RestaurantMapper.ToRestaurant(reservationEF.Restaurant), reservationEF.Contactperson, reservationEF.NumberofSeats, reservationEF.DateTime, reservationEF.TableNumber);
         }
 
         public static ReservationEF ToReservationEF(Reservation reservation)
         {
-            return new ReservationEF() { ReservationNumber = reservation.ReservationNumber, Restaurant = reservation.Restaurant, Contactperson = reservation.Contactperson, NumberofSeats = reservation.NumberofSeats, DateTime = reservation.DateTime, TableNumber = reservation.TableNumber };
+            return new ReservationEF() { ReservationNumber = reservation.ReservationNumber, Restaurant = RestaurantMapper.ToRestaurantEF(reservation.Restaurant), Contactperson = reservation.Contactperson, NumberofSeats = reservation.NumberofSeats, DateTime = reservation.DateTime, TableNumber = reservation.TableNumber };
         }
     }
 }

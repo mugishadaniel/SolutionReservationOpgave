@@ -9,7 +9,7 @@ namespace SolutionReservation.Data.Model
 {
     public class UserEF
     {
-        public UserEF() { }
+        [Key]
         public int ClientNumber { get; set; }
         public string Name { get; set; }
         public string Email { get; set; }

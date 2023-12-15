@@ -12,13 +12,14 @@ namespace SolutionReservation.Data.Mappers
     {
         public static Location ToLocation(LocationEF locationEF)
         {
-            return new Location(locationEF.PostalCode, locationEF.Municipality, locationEF.Street, locationEF.HouseNumber);
+            return new Location(locationEF.Id,locationEF.PostalCode, locationEF.Municipality, locationEF.Street, locationEF.HouseNumber);
         }
 
         public static LocationEF ToLocationEF(Location location)
         {
             return new LocationEF
             {
+                Id = location.Id,
                 PostalCode = location.PostalCode,
                 Municipality = location.Municipality,
                 Street = location.Street,
