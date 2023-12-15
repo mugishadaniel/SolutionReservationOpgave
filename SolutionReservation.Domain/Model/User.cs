@@ -25,6 +25,7 @@ namespace SolutionReservation.Domain.Model
             SetPhone(phone);
             SetLocation(location);
             IsActive = true;
+
         }
 
         public int Clientnumber { get; private set; }
