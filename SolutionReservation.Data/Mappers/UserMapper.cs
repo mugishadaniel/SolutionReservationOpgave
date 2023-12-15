@@ -19,5 +19,17 @@ namespace SolutionReservation.Data.Mappers
         {
             return new UserEF { ClientNumber = user.Clientnumber, Name = user.Name, Email = user.Email, Phone = user.Phone, Location = LocationMapper.ToLocationEF(user.Location) };
         }
+
+        public static UserEF updateUserEF(UserEF userEF, User user)
+        {
+            userEF.Name = user.Name;
+            userEF.Email = user.Email;
+            userEF.Phone = user.Phone;
+            userEF.Location.Street = user.Location.Street;
+            userEF.Location.HouseNumber = user.Location.HouseNumber;
+            userEF.Location.PostalCode = user.Location.PostalCode;
+            userEF.Location.Municipality = user.Location.Municipality;
+            return userEF;
+        }
     }
 }

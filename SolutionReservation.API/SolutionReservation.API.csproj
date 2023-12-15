@@ -9,6 +9,10 @@
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Controllers\" />
+    <ProjectReference Include="..\SolutionReservation.Data\SolutionReservation.Data.csproj" />
+    <ProjectReference Include="..\SolutionReservation.Domain\SolutionReservation.Domain.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="DTO\Output\" />
   </ItemGroup>
 </Project>

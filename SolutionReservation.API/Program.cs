@@ -1,3 +1,8 @@
+using SolutionReservation.Domain.Interfaces;
+using SolutionReservation.Data.Repositories;
+using SolutionReservation.Domain.Managers;
+using SolutionReservation.Data.Context;
+
 namespace SolutionReservation.API
 {
     public class Program
@@ -7,11 +12,14 @@ namespace SolutionReservation.API
             var builder = WebApplication.CreateBuilder(args);
 
             // Add services to the container.
-
+            builder.Services.AddDbContext<ReservationContext>();
+            builder.Services.AddScoped<IUserRepository, UserRepository>();
+            builder.Services.AddScoped<UserManager>();
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
+
 
             var app = builder.Build();
 

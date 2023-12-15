@@ -9,7 +9,7 @@ namespace SolutionReservation.Domain.Model
 {
     public class User
     {
-        public User(int clientnumber, string name, string email, int phone, Location location)
+        public User(int clientnumber, string name, string email, string phone, Location location)
         {
             Clientnumber = clientnumber;
             Name = name;
@@ -18,11 +18,22 @@ namespace SolutionReservation.Domain.Model
             Location = location;
         }
 
+        public User(string name,string email, string phone, Location location)
+        {
+            SetName(name);
+            SetEmail(email);
+            SetPhone(phone);
+            SetLocation(location);
+            IsActive = true;
+        }
+
         public int Clientnumber { get; private set; }
         public string Name { get; private set; }
         public string Email { get; private set; }
-        public int Phone { get; private set; }
+        public string Phone { get; private set; }
         public Location Location { get; set; }
+
+        public bool IsActive { get; private set; }
 
         public void SetClientnumber(int clientnumber)
         {
@@ -32,7 +43,7 @@ namespace SolutionReservation.Domain.Model
 
         public void SetName(string name)
         {
-            if (!string.IsNullOrEmpty(name)) throw new UserException("Name is invalid");
+            if (string.IsNullOrEmpty(name)) throw new UserException("Name is invalid");
             Name = name;
         }
 
@@ -42,9 +53,10 @@ namespace SolutionReservation.Domain.Model
             Email = email;
         }
 
-        public void SetPhone(int phone)
+        public void SetPhone(string phone)
         {
-            if (phone == 0) throw new UserException("Phone is not valid");
+            if (string.IsNullOrEmpty(phone)) throw new UserException("Phone is invalid");
+            if (!phone.All(char.IsDigit)) throw new UserException("Phone is invalid");
             Phone = phone;
         }
 

@@ -17,6 +17,14 @@ namespace SolutionReservation.Domain.Model
             Street = street;
             HouseNumber = houseNumber;
         }
+
+        public Location(int postalCode, string municipality, string? street, string? houseNumber)
+        {
+            SetPostalCode(postalCode);
+            SetMunicipality(municipality);
+            Street = street;
+            HouseNumber = houseNumber;
+        }
         public int Id { get; set; }
         public int PostalCode { get; private set; }
         public string Municipality { get; private set; }

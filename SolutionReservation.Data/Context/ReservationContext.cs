@@ -10,10 +10,10 @@ namespace SolutionReservation.Data.Context
 {
     public class ReservationContext : DbContext
     {
-        DbSet<UserEF> Users { get; set; }
-        DbSet<LocationEF> Locations { get; set; }
-        DbSet<ReservationEF> Reservations { get; set; }
-        DbSet<RestaurantEF> Restaurants { get; set;}
+        public DbSet<UserEF> Users { get; set; }
+        public DbSet<LocationEF> Locations { get; set; }
+        public DbSet<ReservationEF> Reservations { get; set; }
+        public DbSet<RestaurantEF> Restaurants { get; set;}
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
