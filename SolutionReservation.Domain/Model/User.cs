@@ -9,13 +9,14 @@ namespace SolutionReservation.Domain.Model
 {
     public class User
     {
-        public User(int clientnumber, string name, string email, string phone, Location location)
+        public User(int clientnumber, string name, string email, string phone, Location location,bool isactive)
         {
             Clientnumber = clientnumber;
             Name = name;
             Email = email;
             Phone = phone;
             Location = location;
+            IsActive = isactive;
         }
 
         public User(string name,string email, string phone, Location location)
@@ -24,7 +25,6 @@ namespace SolutionReservation.Domain.Model
             SetEmail(email);
             SetPhone(phone);
             SetLocation(location);
-            IsActive = true;
 
         }
 

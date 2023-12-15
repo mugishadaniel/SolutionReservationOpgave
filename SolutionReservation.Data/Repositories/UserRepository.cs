@@ -55,6 +55,7 @@ namespace SolutionReservation.Data.Repositories
             {
                 UserEF userEF = UserMapper.ToUserEF(user);
                 _context.Users.Add(userEF);
+                userEF.IsActive = true;
                 await _context.SaveChangesAsync();
                 return UserMapper.ToUser(userEF);
             }

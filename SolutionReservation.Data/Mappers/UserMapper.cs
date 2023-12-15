@@ -12,12 +12,12 @@ namespace SolutionReservation.Data.Mappers
     {
         public static User ToUser(UserEF userEF)
         {
-            return new User(userEF.ClientNumber, userEF.Name, userEF.Email, userEF.Phone, LocationMapper.ToLocation(userEF.Location));
+            return new User(userEF.ClientNumber, userEF.Name, userEF.Email, userEF.Phone, LocationMapper.ToLocation(userEF.Location),userEF.IsActive);
         }
 
         public static UserEF ToUserEF(User user)
         {
-            return new UserEF { ClientNumber = user.Clientnumber, Name = user.Name, Email = user.Email, Phone = user.Phone, Location = LocationMapper.ToLocationEF(user.Location) };
+            return new UserEF { ClientNumber = user.Clientnumber, Name = user.Name, Email = user.Email, Phone = user.Phone, Location = LocationMapper.ToLocationEF(user.Location),IsActive = user.IsActive};
         }
 
         public static UserEF updateUserEF(UserEF userEF, User user)
