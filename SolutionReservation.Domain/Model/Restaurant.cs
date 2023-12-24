@@ -19,6 +19,16 @@ namespace SolutionReservation.Domain.Model
             SetEmail(email);
             IsActive = isactive;
         }
+
+        public Restaurant(string name, string keuken, string phone, string email, Location location)
+        {
+            SetName(name);
+            SetLocation(location);
+            SetKeuken(keuken);
+            SetPhone(phone);
+            SetEmail(email);
+            IsActive = true;
+        }
         public int Id { get; set; }
         public string Name { get; private set; }
         public Location Location { get; private set; }
