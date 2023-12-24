@@ -9,7 +9,7 @@ namespace SolutionReservation.Domain.Model
 {
     public class Reservation
     {
-        public Reservation(int reservationNumber, Restaurant restaurant, string contactperson, int numberofSeats, DateTime dateTime, int tableNumber)
+        public Reservation(int reservationNumber, Restaurant restaurant, User contactperson, int numberofSeats, DateTime dateTime, int tableNumber)
         {
             SetReservationNumber(reservationNumber);
             SetRestaurant(restaurant);
@@ -18,10 +18,17 @@ namespace SolutionReservation.Domain.Model
             SetDateTime(dateTime);
             SetTableNumber(tableNumber);
         }
+        public Reservation(int numberofSeats, DateTime dateTime, int tableNumber)
+        {
+            SetNumberofSeats(numberofSeats);
+            SetDateTime(dateTime);
+            SetTableNumber(tableNumber);
+        }
+
 
         public int ReservationNumber { get; private set; }
         public Restaurant Restaurant { get; private set; }
-        public string Contactperson { get; private set; }
+        public User Contactperson { get; private set; }
         public int NumberofSeats { get; private set; }
         public DateTime DateTime { get; private set; }
         public int TableNumber { get; private set; }
@@ -37,10 +44,9 @@ namespace SolutionReservation.Domain.Model
             if (restaurant is null) throw new ReservationException("Restaurant is invalid");
             Restaurant = restaurant;
         }
-
-        public void SetContactperson(string contactperson)
+        public void SetContactperson(User contactperson)
         {
-            if (string.IsNullOrEmpty(contactperson)) throw new ReservationException("Contactperson is invalid");
+            if (contactperson is null) throw new ReservationException("Contactperson is invalid");
             Contactperson = contactperson;
         }
 

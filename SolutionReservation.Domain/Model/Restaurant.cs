@@ -9,7 +9,7 @@ namespace SolutionReservation.Domain.Model
 {
     public class Restaurant
     {
-        public Restaurant(int id,string name, Location location, string keuken, int phone, string email)
+        public Restaurant(int id,string name, Location location, string keuken, string phone, string email)
         {
             SetId(id);
             SetName(name);
@@ -22,7 +22,7 @@ namespace SolutionReservation.Domain.Model
         public string Name { get; private set; }
         public Location Location { get; private set; }
         public string Keuken { get; private set; }
-        public int Phone { get; private set; }
+        public string Phone { get; private set; }
         public string Email { get; private set; }
 
         public void SetId(int id)
@@ -49,9 +49,9 @@ namespace SolutionReservation.Domain.Model
             Keuken = keuken;
         }
 
-        public void SetPhone(int phone)
+        public void SetPhone(string phone)
         {
-            if (phone == 0) throw new RestaurantException("Phone is not valid");
+            if (string.IsNullOrWhiteSpace(phone)) throw new RestaurantException("Phone is not valid");
             Phone = phone;
         }
 

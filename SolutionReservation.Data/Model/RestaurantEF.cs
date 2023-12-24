@@ -12,7 +12,7 @@ namespace SolutionReservation.Data.Model
         public string Name { get; set; }
         public LocationEF Location { get; set; }
         public string Keuken { get; set; }
-        public int Phone { get; set; }
+        public string Phone { get; set; }
         public string Email { get; set; }
     }
 }

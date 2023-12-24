@@ -81,5 +81,44 @@ namespace SolutionReservation.Domain.Managers
                 throw new UserManagerException("", ex);
             }
         }
+
+        public async Task<List<Restaurant>> SearchRestaurantAsync(string search)
+        {
+            try
+            {
+                return await _userRepository.SearchRestaurantAsync(search);
+            }
+            catch (Exception ex)
+            {
+
+                throw new UserManagerException("", ex);
+            }
+        }
+
+        public async Task<bool> ExistsRestaurantAsync(int restaurantId)
+        {
+            try
+            {
+                return await _userRepository.ExistsRestaurantAsync(restaurantId);
+            }
+            catch (Exception ex)
+            {
+
+                throw new UserManagerException("", ex);
+            }
+        }
+
+        public async Task<Reservation> AddReservationAsync(int clientNumber, int restaurantId,Reservation reservation)
+        {
+            try
+            {
+                return await _userRepository.AddReservationAsync(clientNumber,restaurantId,reservation);
+            }
+            catch (Exception ex)
+            {
+
+                throw new UserManagerException("", ex);
+            }
+        }
     }
 }

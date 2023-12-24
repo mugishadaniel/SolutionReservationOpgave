@@ -14,5 +14,10 @@ namespace SolutionReservation.Domain.Interfaces
         Task<User> AddUserAsync(User user);
         Task<User> UpdateUserAsync(int clientNumber,User user);
         Task<User> DeleteUserAsync(int clientNumber);
+        Task<List<Restaurant>> SearchRestaurantAsync(string search);
+        Task<bool> ExistsRestaurantAsync(int restaurantId);
+        Task<Reservation> AddReservationAsync(int clientNumber, int restaurantId, Reservation reservation);
+
+
     }
 }
