@@ -107,7 +107,12 @@ namespace SolutionReservation.Data.Repositories
         {
             try
             {
-                List<ReservationEF> reservationEFs = await _context.Reservations.Where(r => r.Restaurant.Id == restaurantId).ToListAsync();
+                List<ReservationEF> reservationEFs = await _context.Reservations
+                    .Include(r => r.Restaurant)
+                    .Include(r => r.User)
+                    .Include(r => r.Restaurant.Location)
+                    .Include(r => r.User.Location)
+                    .Where(r => r.Restaurant.Id == restaurantId).ToListAsync();
                 List<Reservation> reservations = new List<Reservation>();
                 foreach (ReservationEF reservationEF in reservationEFs)
                 {

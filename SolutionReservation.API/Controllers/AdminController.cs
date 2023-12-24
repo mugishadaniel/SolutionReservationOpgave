@@ -65,5 +65,21 @@ namespace SolutionReservation.API.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
         }
+
+        [HttpGet]
+        [Route("GetReservations/{restaurantId}")]
+        public async Task<IActionResult> GetReservationsAsync(int restaurantId)
+        {
+            try
+            {
+                if (!await _adminManager.ExistsRestaurantAsync(restaurantId)) return NotFound($"Restaurant with ID {restaurantId} not found");
+                var result = await _adminManager.GetReservationsAsync(restaurantId);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+            }
+        }
     }
 }
