@@ -13,7 +13,7 @@ namespace SolutionReservation.Data.Model
         [Key]
         public int ReservationNumber { get; set; }
         public RestaurantEF Restaurant { get; set; }
-        public UserEF Contactperson { get; set; }
+        public UserEF User { get; set; }
         public int NumberofSeats { get; set; }
         public DateTime DateTime { get; set; }
         public int TableNumber { get; set; }

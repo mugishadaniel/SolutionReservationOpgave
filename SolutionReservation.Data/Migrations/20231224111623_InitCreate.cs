@@ -36,7 +36,7 @@ namespace SolutionReservation.Data.Migrations
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     LocationId = table.Column<int>(type: "int", nullable: false),
                     Keuken = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Phone = table.Column<int>(type: "int", nullable: false),
+                    Phone = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Email = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
@@ -59,7 +59,8 @@ namespace SolutionReservation.Data.Migrations
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Phone = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    LocationId = table.Column<int>(type: "int", nullable: false)
+                    LocationId = table.Column<int>(type: "int", nullable: false),
+                    IsActive = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -79,7 +80,7 @@ namespace SolutionReservation.Data.Migrations
                     ReservationNumber = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     RestaurantId = table.Column<int>(type: "int", nullable: false),
-                    Contactperson = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    UserClientNumber = table.Column<int>(type: "int", nullable: false),
                     NumberofSeats = table.Column<int>(type: "int", nullable: false),
                     DateTime = table.Column<DateTime>(type: "datetime2", nullable: false),
                     TableNumber = table.Column<int>(type: "int", nullable: false)
@@ -93,12 +94,23 @@ namespace SolutionReservation.Data.Migrations
                         principalTable: "Restaurants",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Reservations_Users_UserClientNumber",
+                        column: x => x.UserClientNumber,
+                        principalTable: "Users",
+                        principalColumn: "ClientNumber",
+                        onDelete: ReferentialAction.NoAction);
                 });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Reservations_RestaurantId",
                 table: "Reservations",
                 column: "RestaurantId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Reservations_UserClientNumber",
+                table: "Reservations",
+                column: "UserClientNumber");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Restaurants_LocationId",
@@ -118,10 +130,10 @@ namespace SolutionReservation.Data.Migrations
                 name: "Reservations");
 
             migrationBuilder.DropTable(
-                name: "Users");
+                name: "Restaurants");
 
             migrationBuilder.DropTable(
-                name: "Restaurants");
+                name: "Users");
 
             migrationBuilder.DropTable(
                 name: "Locations");

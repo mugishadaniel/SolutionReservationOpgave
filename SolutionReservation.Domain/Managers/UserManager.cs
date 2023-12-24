@@ -30,11 +30,11 @@ namespace SolutionReservation.Domain.Managers
             }
         }
 
-        public async Task<User> GetAsync(int clientNumber)
+        public async Task<User> GetUserAsync(int clientNumber)
         {
             try
             {
-                return await _userRepository.GetAsync(clientNumber);
+                return await _userRepository.GetUserAsync(clientNumber);
             }
             catch (Exception ex)
             {
@@ -113,6 +113,71 @@ namespace SolutionReservation.Domain.Managers
             try
             {
                 return await _userRepository.AddReservationAsync(clientNumber,restaurantId,reservation);
+            }
+            catch (Exception ex)
+            {
+
+                throw new UserManagerException("", ex);
+            }
+        }
+
+        public async Task<Reservation> UpdateReservationAsync(int reservationId, Reservation reservation)
+        {
+            try
+            {
+                return await _userRepository.UpdateReservationAsync(reservationId, reservation);
+            }
+            catch (Exception ex)
+            {
+
+                throw new UserManagerException("", ex);
+            }
+        }
+
+        public async Task<bool> ExistsReservation(int reservationId)
+        {
+            try
+            {
+                return await _userRepository.ExistsReservation(reservationId);
+            }
+            catch (Exception ex)
+            {
+
+                throw new UserManagerException("", ex);
+            }
+        }
+
+        public async Task<Reservation> GetReservationAsync(int reservationId)
+        {
+            try
+            {
+                return await _userRepository.GetReservationAsync(reservationId);
+            }
+            catch (Exception ex)
+            {
+
+                throw new UserManagerException("", ex);
+            }
+        }
+
+        public async Task<Reservation> DeleteReservationAsync(int reservationId)
+        {
+            try
+            {
+                return await _userRepository.DeleteReservationAsync(reservationId);
+            }
+            catch (Exception ex)
+            {
+
+                throw new UserManagerException("", ex);
+            }
+        }
+
+        public async Task<List<Reservation>> SearchReservationsAsync(string search)
+        {
+            try
+            {
+                return await _userRepository.SearchReservationsAsync(search);
             }
             catch (Exception ex)
             {

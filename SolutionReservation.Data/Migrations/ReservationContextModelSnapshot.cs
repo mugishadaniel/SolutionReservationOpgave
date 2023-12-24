@@ -56,10 +56,6 @@ namespace SolutionReservation.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ReservationNumber"));
 
-                    b.Property<string>("Contactperson")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<DateTime>("DateTime")
                         .HasColumnType("datetime2");
 
@@ -72,9 +68,14 @@ namespace SolutionReservation.Data.Migrations
                     b.Property<int>("TableNumber")
                         .HasColumnType("int");
 
+                    b.Property<int>("UserClientNumber")
+                        .HasColumnType("int");
+
                     b.HasKey("ReservationNumber");
 
                     b.HasIndex("RestaurantId");
+
+                    b.HasIndex("UserClientNumber");
 
                     b.ToTable("Reservations");
                 });
@@ -102,8 +103,9 @@ namespace SolutionReservation.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("Phone")
-                        .HasColumnType("int");
+                    b.Property<string>("Phone")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
@@ -153,7 +155,15 @@ namespace SolutionReservation.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("SolutionReservation.Data.Model.UserEF", "User")
+                        .WithMany()
+                        .HasForeignKey("UserClientNumber")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("Restaurant");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("SolutionReservation.Data.Model.RestaurantEF", b =>

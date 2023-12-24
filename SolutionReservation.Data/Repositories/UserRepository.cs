@@ -35,7 +35,7 @@ namespace SolutionReservation.Data.Repositories
             }
         }
 
-        public async Task<User> GetAsync(int clientNumber)
+        public async Task<User> GetUserAsync(int clientNumber)
         {
             try
             {
@@ -144,7 +144,7 @@ namespace SolutionReservation.Data.Repositories
                 RestaurantEF restaurantEF = await _context.Restaurants.Include(l => l.Location).FirstOrDefaultAsync(r => r.Id == restaurantId);
                 ReservationEF reservationEF = new ReservationEF()
                 {
-                    Contactperson = userEF.Name,
+                    User = userEF,
                     Restaurant = restaurantEF,
                     DateTime = reservation.DateTime,
                     NumberofSeats = reservation.NumberofSeats,
@@ -158,6 +158,109 @@ namespace SolutionReservation.Data.Repositories
             {
 
                 throw new UserRepositoryException("Error in UserRepository.AddReservationAsync(int clientNumber, int restaurantId)", ex);
+            }
+        }
+
+        public async Task<Reservation> UpdateReservationAsync(int reservationId, Reservation reservation)
+        {
+            try
+            {
+                ReservationEF existingReservationEF = await _context.Reservations
+                    .Include(r => r.Restaurant)
+                        .ThenInclude(restaurant => restaurant.Location)
+                    .Include(r => r.User)
+                        .ThenInclude(user => user.Location)
+                    .FirstOrDefaultAsync(r => r.ReservationNumber == reservationId);
+                if (existingReservationEF == null)
+                {
+                    throw new UserRepositoryException("Reservation not found");
+                }
+                ReservationMapper.UpdateReservationEF(existingReservationEF, reservation);
+                await _context.SaveChangesAsync();
+                return ReservationMapper.ToReservation(existingReservationEF);
+            }
+            catch (Exception ex)
+            {
+
+                throw new UserRepositoryException("Error in UserRepository.UpdateReservationAsync(int reservationId, Reservation reservation)", ex);
+            }
+        }
+
+        public async Task<bool> ExistsReservation(int reservationId)
+        {
+            try
+            {
+                return await Task.FromResult(_context.Reservations.Any(r => r.ReservationNumber == reservationId));
+            }
+            catch (Exception ex)
+            {
+
+                throw new UserRepositoryException("Error in UserRepository.ExistsReservation(int reservationId)", ex);
+            }
+        }
+
+        public async Task<Reservation> GetReservationAsync(int reservationId)
+        {
+            try
+            {
+                ReservationEF reservationEF = await _context.Reservations
+                    .Include(r => r.Restaurant)
+                        .ThenInclude(restaurant => restaurant.Location)
+                    .Include(r => r.User)
+                        .ThenInclude(user => user.Location) 
+                    .FirstOrDefaultAsync(r => r.ReservationNumber == reservationId);
+
+                return ReservationMapper.ToReservation(reservationEF);
+            }
+            catch (Exception ex)
+            {
+
+                throw new UserRepositoryException("Error in UserRepository.GetReservationAsync(int reservationId)", ex);
+            }
+        }
+
+        public async Task<Reservation> DeleteReservationAsync(int reservationId)
+        {
+            try
+            {
+                ReservationEF existingReservationEF = await _context.Reservations
+                    .Include(r => r.Restaurant)
+                        .ThenInclude(restaurant => restaurant.Location)
+                    .Include(r => r.User)
+                        .ThenInclude(user => user.Location)
+                    .FirstOrDefaultAsync(r => r.ReservationNumber == reservationId);
+                if (existingReservationEF == null)
+                {
+                    throw new UserRepositoryException("Reservation not found");
+                }
+                _context.Reservations.Remove(existingReservationEF);
+                await _context.SaveChangesAsync();
+                return ReservationMapper.ToReservation(existingReservationEF);
+            }
+            catch (Exception ex)
+            {
+
+                throw new UserRepositoryException("Error in UserRepository.DeleteReservationAsync(int reservationId)", ex);
+            }
+        }
+
+        public async Task<List<Reservation>> SearchReservationsAsync(string search)
+        {
+            try
+            {
+                List<ReservationEF> reservationEFs = await _context.Reservations
+                    .Where(r => r.Restaurant.Keuken.Contains(search) || r.Restaurant.Location.PostalCode.ToString().Contains(search) || r.DateTime.ToString().Contains(search))
+                    .Include(r => r.Restaurant)
+                        .ThenInclude(restaurant => restaurant.Location)
+                    .Include(r => r.User)
+                        .ThenInclude(user => user.Location)
+                    .ToListAsync();
+                return reservationEFs.Select(r => ReservationMapper.ToReservation(r)).ToList();
+            }
+            catch (Exception ex)
+            {
+
+                throw new UserRepositoryException("Error in UserRepository.SearchReservationsAsync(string search)", ex);
             }
         }
     }

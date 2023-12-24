@@ -43,7 +43,7 @@ namespace SolutionReservation.API.Controllers
             try
             {
                 if (!await _userManager.ExistsAsync(clientNumber)) return NotFound($"User with ID {clientNumber} not found");
-                var result = await _userManager.GetAsync(clientNumber);
+                var result = await _userManager.GetUserAsync(clientNumber);
                 return Ok(result);
             }
             catch (Exception ex)
@@ -59,7 +59,7 @@ namespace SolutionReservation.API.Controllers
             try
             {
                 if (!await _userManager.ExistsAsync(clientNumber)) return NotFound($"User with ID {clientNumber} not found");
-                var userFromDb = await _userManager.GetAsync(clientNumber);
+                var userFromDb = await _userManager.GetUserAsync(clientNumber);
                 user = UserMapperDTO.UpdateUser(userFromDb,user);
                 var result = await _userManager.UpdateUserAsync(clientNumber, UserMapperDTO.ToDomain(user));
                 return Ok(result);
@@ -110,6 +110,55 @@ namespace SolutionReservation.API.Controllers
                 if (!await _userManager.ExistsAsync(clientNumber)) return NotFound($"User with ID {clientNumber} not found");
                 if (!await _userManager.ExistsRestaurantAsync(restaurantId)) return NotFound($"Restaurant with ID {restaurantId} not found");
                 var result = await _userManager.AddReservationAsync(clientNumber, restaurantId,ReservationMapperDTO.ToDomain(reservation));
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+            }
+        }
+
+        [HttpPut]
+        [Route("UpdateReservation/{reservationId}")]
+        public async Task<IActionResult> UpdateReservationAsync(int reservationId, ReservationInputDTO reservation)
+        {
+            try
+            {
+                if(!await _userManager.ExistsReservation(reservationId)) return NotFound($"Reservation with ID {reservationId} not found");
+                var reservationFromDb = await _userManager.GetReservationAsync(reservationId);
+                reservation = ReservationMapperDTO.UpdateReservation(reservationFromDb,reservation);
+                var result = await _userManager.UpdateReservationAsync(reservationId, ReservationMapperDTO.ToDomain(reservation));
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+            }
+        }
+
+        [HttpDelete]
+        [Route("DeleteReservation/{reservationId}")]
+        public async Task<IActionResult> DeleteReservationAsync(int reservationId)
+        {
+            try
+            {
+                if (!await _userManager.ExistsReservation(reservationId)) return NotFound($"Reservation with ID {reservationId} not found");
+                var result = await _userManager.DeleteReservationAsync(reservationId);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+            }
+        }
+
+        [HttpGet]
+        [Route("SearchReservations/{search}")]
+        public async Task<IActionResult> SearchReservationsAsync(string search)
+        {
+            try
+            {
+                var result = await _userManager.SearchReservationsAsync(search);
                 return Ok(result);
             }
             catch (Exception ex)
