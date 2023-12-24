@@ -14,7 +14,6 @@ namespace SolutionReservation.Domain.Interfaces
         Task<Restaurant> AddRestaurantAsync(Restaurant restaurant);
         Task<Restaurant> UpdateRestaurantAsync(int restaurantId, Restaurant restaurant);
         Task<Restaurant> DeleteRestaurantAsync(int restaurantId);
-        Task<bool> ExistsLocationAsync(int locationId);
         Task<List<Reservation>> GetReservationsAsync(int restaurantId);
     }
 }
