@@ -9,7 +9,7 @@ namespace SolutionReservation.Domain.Model
 {
     public class Restaurant
     {
-        public Restaurant(int id,string name, Location location, string keuken, string phone, string email)
+        public Restaurant(int id,string name, Location location, string keuken, string phone, string email, bool isactive)
         {
             SetId(id);
             SetName(name);
@@ -17,6 +17,7 @@ namespace SolutionReservation.Domain.Model
             SetKeuken(keuken);
             SetPhone(phone);
             SetEmail(email);
+            IsActive = isactive;
         }
         public int Id { get; set; }
         public string Name { get; private set; }
@@ -24,6 +25,8 @@ namespace SolutionReservation.Domain.Model
         public string Keuken { get; private set; }
         public string Phone { get; private set; }
         public string Email { get; private set; }
+
+        public bool IsActive { get; private set; }
 
         public void SetId(int id)
         {
