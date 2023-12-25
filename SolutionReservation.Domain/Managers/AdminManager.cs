@@ -94,5 +94,18 @@ namespace SolutionReservation.Domain.Managers
                 throw new AdminManagerException("Error in AdminManager.GetReservationsAsync(int restaurantId)", ex);
             }
         }
+
+        public async Task<List<Reservation>> GetReservationsAsync(int restaurantId, DateOnly startDate, DateOnly endDate)
+        {
+            try
+            {
+                return await _adminRepository.GetReservationsPeriodAsync(restaurantId, startDate, endDate);
+            }
+            catch (Exception ex)
+            {
+
+                throw new AdminManagerException("Error in AdminManager.GetReservationsAsync(int restaurantId, DateOnly startDate, DateOnly endDate)", ex);
+            }
+        }
     }
 }

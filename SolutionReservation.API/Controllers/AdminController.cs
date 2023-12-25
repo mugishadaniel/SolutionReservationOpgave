@@ -81,5 +81,23 @@ namespace SolutionReservation.API.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
         }
+
+
+        [HttpGet]
+        [Route("GetReservations/{restaurantId}/{start}/{end}")] 
+        public async Task<IActionResult> GetReservationsAsync(int restaurantId, DateOnly start, DateOnly end) // formaat : yyyy-mm-dd bv. 2024-02-11
+        {
+            try
+            {
+                if (!await _adminManager.ExistsRestaurantAsync(restaurantId)) return NotFound($"Restaurant with ID {restaurantId} not found");
+                var result = await _adminManager.GetReservationsAsync(restaurantId, start, end);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+            }
+        }
+
     }
 }

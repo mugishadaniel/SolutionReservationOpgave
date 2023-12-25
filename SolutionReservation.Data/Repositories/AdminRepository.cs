@@ -126,5 +126,32 @@ namespace SolutionReservation.Data.Repositories
                 throw new AdminRepositoryException("Error in AdminRepository.GetReservationsAsync: ", ex);
             }
         }
+
+        public async Task<List<Reservation>> GetReservationsPeriodAsync(int restaurantId, DateOnly startDate, DateOnly endDate)
+        {
+            try
+            {
+                List<ReservationEF> reservationEFs = await _context.Reservations
+                    .Include(r => r.Restaurant)
+                    .Include(r => r.User)
+                    .Include(r => r.Restaurant.Location)
+                    .Include(r => r.User.Location)
+                    .Where(r => r.Restaurant.Id == restaurantId
+                            && DateOnly.FromDateTime(r.DateTime.Date) >= startDate
+                            && DateOnly.FromDateTime(r.DateTime.Date) <= endDate)
+                    .ToListAsync();
+                List<Reservation> reservations = new List<Reservation>();
+                foreach (ReservationEF reservationEF in reservationEFs)
+                {
+                    reservations.Add(ReservationMapper.ToReservation(reservationEF));
+                }
+                return reservations;
+            }
+            catch (Exception ex)
+            {
+
+                throw new AdminRepositoryException("Error in AdminRepository.GetReservationsAsync: ", ex);
+            }
+        }
     }
 }
