@@ -111,7 +111,7 @@ namespace SolutionReservation.API.Controllers
             {
                 if (!await _userManager.ExistsAsync(clientNumber)) return NotFound($"User with ID {clientNumber} not found");
                 if (!await _userManager.ExistsRestaurantAsync(restaurantId)) return NotFound($"Restaurant with ID {restaurantId} not found");
-                if (!await _reservationManager.TryMakeReservationAsync(ReservationMapperDTO.ToDomain(reservation),restaurantId)) return BadRequest("Reservation not available");
+                if (!await _reservationManager.TryMakeReservationAsync(ReservationMapperDTO.ToDomain(reservation),restaurantId,0)) return BadRequest("Reservation not available");
                 var result = await _userManager.AddReservationAsync(clientNumber, restaurantId,ReservationMapperDTO.ToDomain(reservation));
                 return Ok(result);
             }
@@ -130,6 +130,7 @@ namespace SolutionReservation.API.Controllers
                 if(!await _userManager.ExistsReservation(reservationId)) return NotFound($"Reservation with ID {reservationId} not found");
                 var reservationFromDb = await _userManager.GetReservationAsync(reservationId);
                 reservation = ReservationMapperDTO.UpdateReservation(reservationFromDb,reservation);
+                if (!await _reservationManager.TryMakeReservationAsync(ReservationMapperDTO.ToDomain(reservation),reservationFromDb.Restaurant.Id,reservationId)) return BadRequest("Reservation not available");
                 var result = await _userManager.UpdateReservationAsync(reservationId, ReservationMapperDTO.ToDomain(reservation));
                 return Ok(result);
             }

@@ -19,7 +19,7 @@ namespace SolutionReservation.Domain.Managers
             _adminRepository = adminRepository;
         }
 
-        public async Task<bool> TryMakeReservationAsync(Reservation reservation,int restaurantId)
+        public async Task<bool> TryMakeReservationAsync(Reservation reservation,int restaurantId,int reservationNumber)
         {
             DateTime requestedStartTime = reservation.DateTime;
             DateTime requestedEndTime = requestedStartTime.AddHours(1.5);
@@ -31,11 +31,14 @@ namespace SolutionReservation.Domain.Managers
 
             foreach (Reservation existingReservation in overlappingReservations)
             {
+                // if its updating a reservation, ignore the reservation that is being updated
+                if (reservationNumber == existingReservation.ReservationNumber) continue;
                 DateTime existingReservationEndTime = existingReservation.DateTime.AddHours(1.5);
 
 
                 if (requestedStartTime < existingReservationEndTime && requestedEndTime > existingReservation.DateTime)
                 {
+
                     return false; 
                 }
             }
