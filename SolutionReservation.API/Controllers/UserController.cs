@@ -15,9 +15,11 @@ namespace SolutionReservation.API.Controllers
     public class UserController : ControllerBase
     {
         private UserManager _userManager;
-        public UserController(UserManager userManager)
+        private ReservationManager _reservationManager;
+        public UserController(UserManager userManager, ReservationManager reservationManager)
         {
             _userManager = userManager;
+            _reservationManager = reservationManager;
         }
 
         [HttpPut]
@@ -109,6 +111,7 @@ namespace SolutionReservation.API.Controllers
             {
                 if (!await _userManager.ExistsAsync(clientNumber)) return NotFound($"User with ID {clientNumber} not found");
                 if (!await _userManager.ExistsRestaurantAsync(restaurantId)) return NotFound($"Restaurant with ID {restaurantId} not found");
+                if (!await _reservationManager.TryMakeReservationAsync(ReservationMapperDTO.ToDomain(reservation),restaurantId)) return BadRequest("Reservation not available");
                 var result = await _userManager.AddReservationAsync(clientNumber, restaurantId,ReservationMapperDTO.ToDomain(reservation));
                 return Ok(result);
             }

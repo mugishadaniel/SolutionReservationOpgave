@@ -17,6 +17,7 @@ namespace SolutionReservation.API
             builder.Services.AddScoped<UserManager>();
             builder.Services.AddScoped<IAdminRepository, AdminRepository>();
             builder.Services.AddScoped<AdminManager>();
+            builder.Services.AddScoped<ReservationManager>();
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
