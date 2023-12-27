@@ -14,6 +14,7 @@ namespace SolutionReservation.Data.Context
         public DbSet<LocationEF> Locations { get; set; }
         public DbSet<ReservationEF> Reservations { get; set; }
         public DbSet<RestaurantEF> Restaurants { get; set;}
+        public DbSet<TableEF> Tables { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

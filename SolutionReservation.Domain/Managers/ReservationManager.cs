@@ -31,7 +31,7 @@ namespace SolutionReservation.Domain.Managers
 
             foreach (Reservation existingReservation in overlappingReservations)
             {
-                // if its updating a reservation, ignore the reservation that is being updated
+
                 if (reservationNumber == existingReservation.ReservationNumber) continue;
                 DateTime existingReservationEndTime = existingReservation.DateTime.AddHours(1.5);
 

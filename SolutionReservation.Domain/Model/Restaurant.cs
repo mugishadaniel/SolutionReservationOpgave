@@ -29,12 +29,14 @@ namespace SolutionReservation.Domain.Model
             SetEmail(email);
             IsActive = true;
         }
-        public int Id { get; set; }
+        public int Id { get;private set; }
         public string Name { get; private set; }
         public Location Location { get; private set; }
         public string Keuken { get; private set; }
         public string Phone { get; private set; }
         public string Email { get; private set; }
+
+        public ICollection<Table> Tables { get; private set; }
 
         public bool IsActive { get; private set; }
 

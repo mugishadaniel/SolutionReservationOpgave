@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SolutionReservation.Data.Context;
 
@@ -11,9 +12,11 @@ using SolutionReservation.Data.Context;
 namespace SolutionReservation.Data.Migrations
 {
     [DbContext(typeof(ReservationContext))]
-    partial class ReservationContextModelSnapshot : ModelSnapshot
+    [Migration("20231227151142_AddTableInventory")]
+    partial class AddTableInventory
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -138,7 +141,7 @@ namespace SolutionReservation.Data.Migrations
 
                     b.HasIndex("RestaurantEFId");
 
-                    b.ToTable("Tables");
+                    b.ToTable("TableEF");
                 });
 
             modelBuilder.Entity("SolutionReservation.Data.Model.UserEF", b =>

@@ -22,8 +22,8 @@ namespace SolutionReservation.API.Controllers
             _reservationManager = reservationManager;
         }
 
-        [HttpPut]
-        [Route("AddUser")]
+        [HttpPost]
+        [Route("User")]
         public async Task<IActionResult> AddUserAsync(UserInputDTO user)
         {
             try
@@ -39,7 +39,7 @@ namespace SolutionReservation.API.Controllers
         }
 
         [HttpGet]
-        [Route("GetUser/{clientNumber}")]
+        [Route("User/{clientNumber}")]
         public async Task<IActionResult> GetUserAsync(int clientNumber)
         {
             try
@@ -55,7 +55,7 @@ namespace SolutionReservation.API.Controllers
         }
 
         [HttpPut]
-        [Route("UpdateUser/{clientNumber}")]
+        [Route("User/{clientNumber}")]
         public async Task<IActionResult> UpdateUserAsync(int clientNumber, UserInputDTO user)
         {
             try
@@ -73,7 +73,7 @@ namespace SolutionReservation.API.Controllers
         }
 
         [HttpDelete]
-        [Route("DeleteUser/{clientNumber}")]
+        [Route("User/{clientNumber}")]
         public async Task<IActionResult> DeleteUserAsync(int clientNumber)
         {
             try
@@ -89,7 +89,7 @@ namespace SolutionReservation.API.Controllers
         }
 
         [HttpGet]
-        [Route("SearchRestaurant/{search}")]
+        [Route("Restaurant/{search}")]
         public async Task<IActionResult> SearchRestaurantAsync(string search)
         {
             try
@@ -103,8 +103,8 @@ namespace SolutionReservation.API.Controllers
             }
         }
 
-        [HttpPut]
-        [Route("AddReservation/{clientNumber}/{restaurantId}")]
+        [HttpPost]
+        [Route("Reservation/{clientNumber}/{restaurantId}")]
         public async Task<IActionResult> AddReservationAsync(int clientNumber, int restaurantId, ReservationInputDTO reservation)
         {
             try
@@ -122,7 +122,7 @@ namespace SolutionReservation.API.Controllers
         }
 
         [HttpPut]
-        [Route("UpdateReservation/{reservationId}")]
+        [Route("Reservation/{reservationId}")]
         public async Task<IActionResult> UpdateReservationAsync(int reservationId, ReservationInputDTO reservation)
         {
             try
@@ -141,7 +141,7 @@ namespace SolutionReservation.API.Controllers
         }
 
         [HttpDelete]
-        [Route("DeleteReservation/{reservationId}")]
+        [Route("Reservation/{reservationId}")]
         public async Task<IActionResult> DeleteReservationAsync(int reservationId)
         {
             try
@@ -157,7 +157,7 @@ namespace SolutionReservation.API.Controllers
         }
 
         [HttpGet]
-        [Route("SearchReservations/{search}")]
+        [Route("Reservations/{search}")]
         public async Task<IActionResult> SearchReservationsAsync(string search)
         {
             try

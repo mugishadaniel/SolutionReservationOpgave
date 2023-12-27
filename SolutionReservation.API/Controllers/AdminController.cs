@@ -17,8 +17,8 @@ namespace SolutionReservation.API.Controllers
             _adminManager = adminManager;
         }
 
-        [HttpPut]
-        [Route("AddRestaurant")]
+        [HttpPost]
+        [Route("Restaurant")]
         public async Task<IActionResult> AddRestaurantAsync(RestaurantInputDTO restaurant)
         {
             try
@@ -33,7 +33,7 @@ namespace SolutionReservation.API.Controllers
         }
 
         [HttpPut]
-        [Route("UpdateRestaurant")]
+        [Route("Restaurant")]
         public async Task<IActionResult> UpdateRestaurantAsync(int restaurantId, RestaurantInputDTO restaurant)
         {
             try
@@ -51,7 +51,7 @@ namespace SolutionReservation.API.Controllers
         }
 
         [HttpDelete]
-        [Route("DeleteRestaurant/{restaurantId}")]
+        [Route("Restaurant/{restaurantId}")]
         public async Task<IActionResult> DeleteRestaurantAsync(int restaurantId)
         {
             try
@@ -67,7 +67,7 @@ namespace SolutionReservation.API.Controllers
         }
 
         [HttpGet]
-        [Route("GetReservations/{restaurantId}")]
+        [Route("Reservations/{restaurantId}")]
         public async Task<IActionResult> GetReservationsAsync(int restaurantId)
         {
             try
@@ -84,7 +84,7 @@ namespace SolutionReservation.API.Controllers
 
 
         [HttpGet]
-        [Route("GetReservations/{restaurantId}/{start}/{end}")] 
+        [Route("ReservationsPeriod/{restaurantId}")] 
         public async Task<IActionResult> GetReservationsAsync(int restaurantId, DateOnly start, DateOnly end) // formaat : yyyy-mm-dd bv. 2024-02-11
         {
             try

@@ -9,20 +9,18 @@ namespace SolutionReservation.Domain.Model
 {
     public class Reservation
     {
-        public Reservation(int reservationNumber, Restaurant restaurant, User contactperson, int numberofSeats, DateTime dateTime, int tableNumber)
+        public Reservation(int reservationNumber, Restaurant restaurant, User contactperson, int numberofSeats, DateTime dateTime)
         {
             SetReservationNumber(reservationNumber);
             SetRestaurant(restaurant);
             SetContactperson(contactperson);
             SetNumberofSeats(numberofSeats);
             SetDateTime(dateTime);
-            SetTableNumber(tableNumber);
         }
-        public Reservation(int numberofSeats, DateTime dateTime, int tableNumber)
+        public Reservation(int numberofSeats, DateTime dateTime)
         {
             SetNumberofSeats(numberofSeats);
             SetDateTime(dateTime);
-            SetTableNumber(tableNumber);
         }
 
 
