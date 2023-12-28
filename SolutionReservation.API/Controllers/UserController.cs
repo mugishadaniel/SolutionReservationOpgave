@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using SolutionReservation.API.DTO.Input;
 using SolutionReservation.API.MapperDTO;
-using SolutionReservation.Data.Model;
 using SolutionReservation.Domain.Managers;
 using SolutionReservation.Domain.Model;
 
