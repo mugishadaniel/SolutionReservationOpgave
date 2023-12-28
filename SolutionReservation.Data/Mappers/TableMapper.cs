@@ -12,7 +12,7 @@ namespace SolutionReservation.Data.Mappers
     {
         public static Table Map(TableEF tableEF)
         {
-            return new Table(tableEF.TableID, tableEF.Seats);
+            return new Table(tableEF.TableID, tableEF.Seats,tableEF.RestaurantId);
         }
 
         public static TableEF Map(Table table)

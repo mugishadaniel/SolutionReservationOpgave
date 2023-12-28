@@ -12,7 +12,7 @@ using SolutionReservation.Data.Context;
 namespace SolutionReservation.Data.Migrations
 {
     [DbContext(typeof(ReservationContext))]
-    [Migration("20231224111623_InitCreate")]
+    [Migration("20231228142232_InitCreate")]
     partial class InitCreate
     {
         /// <inheritdoc />
@@ -95,6 +95,9 @@ namespace SolutionReservation.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
                     b.Property<string>("Keuken")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -115,6 +118,27 @@ namespace SolutionReservation.Data.Migrations
                     b.HasIndex("LocationId");
 
                     b.ToTable("Restaurants");
+                });
+
+            modelBuilder.Entity("SolutionReservation.Data.Model.TableEF", b =>
+                {
+                    b.Property<int>("TableID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("TableID"));
+
+                    b.Property<int>("RestaurantId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Seats")
+                        .HasColumnType("int");
+
+                    b.HasKey("TableID");
+
+                    b.HasIndex("RestaurantId");
+
+                    b.ToTable("Tables");
                 });
 
             modelBuilder.Entity("SolutionReservation.Data.Model.UserEF", b =>
@@ -155,13 +179,13 @@ namespace SolutionReservation.Data.Migrations
                     b.HasOne("SolutionReservation.Data.Model.RestaurantEF", "Restaurant")
                         .WithMany()
                         .HasForeignKey("RestaurantId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("SolutionReservation.Data.Model.UserEF", "User")
                         .WithMany()
                         .HasForeignKey("UserClientNumber")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("Restaurant");
@@ -174,10 +198,21 @@ namespace SolutionReservation.Data.Migrations
                     b.HasOne("SolutionReservation.Data.Model.LocationEF", "Location")
                         .WithMany()
                         .HasForeignKey("LocationId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("Location");
+                });
+
+            modelBuilder.Entity("SolutionReservation.Data.Model.TableEF", b =>
+                {
+                    b.HasOne("SolutionReservation.Data.Model.RestaurantEF", "Restaurant")
+                        .WithMany("Tables")
+                        .HasForeignKey("RestaurantId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.Navigation("Restaurant");
                 });
 
             modelBuilder.Entity("SolutionReservation.Data.Model.UserEF", b =>
@@ -185,10 +220,15 @@ namespace SolutionReservation.Data.Migrations
                     b.HasOne("SolutionReservation.Data.Model.LocationEF", "Location")
                         .WithMany()
                         .HasForeignKey("LocationId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("Location");
+                });
+
+            modelBuilder.Entity("SolutionReservation.Data.Model.RestaurantEF", b =>
+                {
+                    b.Navigation("Tables");
                 });
 #pragma warning restore 612, 618
         }

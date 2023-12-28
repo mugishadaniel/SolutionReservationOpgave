@@ -16,6 +16,7 @@ namespace SolutionReservation.Data.Context
         public DbSet<RestaurantEF> Restaurants { get; set;}
         public DbSet<TableEF> Tables { get; set; }
 
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseSqlServer(@"Data Source=DANIEL\SQLEXPRESS;Initial Catalog=ReservationDB;Integrated Security=True;Pooling=False;Encrypt=True;TrustServerCertificate=True

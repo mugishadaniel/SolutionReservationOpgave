@@ -125,9 +125,6 @@ namespace SolutionReservation.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("TableID"));
 
-                    b.Property<int?>("RestaurantEFId")
-                        .HasColumnType("int");
-
                     b.Property<int>("RestaurantId")
                         .HasColumnType("int");
 
@@ -136,7 +133,7 @@ namespace SolutionReservation.Data.Migrations
 
                     b.HasKey("TableID");
 
-                    b.HasIndex("RestaurantEFId");
+                    b.HasIndex("RestaurantId");
 
                     b.ToTable("Tables");
                 });
@@ -179,13 +176,13 @@ namespace SolutionReservation.Data.Migrations
                     b.HasOne("SolutionReservation.Data.Model.RestaurantEF", "Restaurant")
                         .WithMany()
                         .HasForeignKey("RestaurantId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("SolutionReservation.Data.Model.UserEF", "User")
                         .WithMany()
                         .HasForeignKey("UserClientNumber")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("Restaurant");
@@ -198,7 +195,7 @@ namespace SolutionReservation.Data.Migrations
                     b.HasOne("SolutionReservation.Data.Model.LocationEF", "Location")
                         .WithMany()
                         .HasForeignKey("LocationId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("Location");
@@ -206,9 +203,13 @@ namespace SolutionReservation.Data.Migrations
 
             modelBuilder.Entity("SolutionReservation.Data.Model.TableEF", b =>
                 {
-                    b.HasOne("SolutionReservation.Data.Model.RestaurantEF", null)
+                    b.HasOne("SolutionReservation.Data.Model.RestaurantEF", "Restaurant")
                         .WithMany("Tables")
-                        .HasForeignKey("RestaurantEFId");
+                        .HasForeignKey("RestaurantId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.Navigation("Restaurant");
                 });
 
             modelBuilder.Entity("SolutionReservation.Data.Model.UserEF", b =>
@@ -216,7 +217,7 @@ namespace SolutionReservation.Data.Migrations
                     b.HasOne("SolutionReservation.Data.Model.LocationEF", "Location")
                         .WithMany()
                         .HasForeignKey("LocationId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("Location");

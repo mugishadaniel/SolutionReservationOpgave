@@ -19,7 +19,7 @@ namespace SolutionReservation.Domain.Managers
             _adminRepository = adminRepository;
         }
 
-        public async Task<bool> TryMakeReservationAsync(Reservation reservation,int restaurantId,int reservationNumber)
+        public async Task<bool> TryMakeReservationAsync(Reservation reservation, int restaurantId, int reservationNumber)
         {
             DateTime requestedStartTime = reservation.DateTime;
             DateTime requestedEndTime = requestedStartTime.AddHours(1.5);
@@ -29,21 +29,52 @@ namespace SolutionReservation.Domain.Managers
                 DateOnly.FromDateTime(requestedStartTime),
                 DateOnly.FromDateTime(requestedEndTime));
 
-            foreach (Reservation existingReservation in overlappingReservations)
+            bool isOverlapping = overlappingReservations.Any(existingReservation =>
+                reservationNumber != existingReservation.ReservationNumber &&
+                requestedStartTime < existingReservation.DateTime.AddHours(1.5) &&
+                requestedEndTime > existingReservation.DateTime);
+
+            if (isOverlapping)
             {
-
-                if (reservationNumber == existingReservation.ReservationNumber) continue;
-                DateTime existingReservationEndTime = existingReservation.DateTime.AddHours(1.5);
-
-
-                if (requestedStartTime < existingReservationEndTime && requestedEndTime > existingReservation.DateTime)
+                var availableTable = await FindAvailableTable(restaurantId, reservation.NumberofSeats, requestedStartTime, requestedEndTime);
+                if (availableTable == null)
                 {
-
                     return false; 
+                }
+
+                reservation.SetTableNumber(availableTable.TableID);
+            }
+
+
+            return true;
+        }
+
+        private async Task<Table> FindAvailableTable(int restaurantId, int numberOfSeats, DateTime requestedStartTime, DateTime requestedEndTime)
+        {
+            Restaurant restaurant = await _adminRepository.GetRestaurantAsync(restaurantId);
+            ICollection<Table> tables = restaurant.Tables;
+
+            // Get all reservations for the restaurant
+            List<Reservation> reservations = await _adminRepository.GetReservationsPeriodAsync(
+                               restaurantId,
+                                              DateOnly.FromDateTime(requestedStartTime),
+                                                             DateOnly.FromDateTime(requestedEndTime));
+
+            // Find a table that is not reserved during the requested time period
+            foreach (Table table in tables)
+            {
+                bool isReserved = reservations.Any(reservation =>
+                                   reservation.TableNumber == table.TableID &&
+                                                      requestedStartTime < reservation.DateTime.AddHours(1.5) &&
+                                                                         requestedEndTime > reservation.DateTime);
+
+                if (!isReserved && table.Seats >= numberOfSeats)
+                {
+                    return table;
                 }
             }
 
-            return true;
+            return null;
         }
 
 

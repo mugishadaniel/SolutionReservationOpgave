@@ -9,7 +9,7 @@ namespace SolutionReservation.Domain.Model
 {
     public class Restaurant
     {
-        public Restaurant(int id,string name, Location location, string keuken, string phone, string email, bool isactive)
+        public Restaurant(int id,string name, Location location, string keuken, string phone, string email, bool isactive,List<Table> tables)
         {
             SetId(id);
             SetName(name);
@@ -18,6 +18,18 @@ namespace SolutionReservation.Domain.Model
             SetPhone(phone);
             SetEmail(email);
             IsActive = isactive;
+            SetTables(tables);
+        }
+
+        public Restaurant(string name, string keuken, string phone, string email, Location location, List<Table> tables)
+        {
+            SetName(name);
+            SetLocation(location);
+            SetKeuken(keuken);
+            SetPhone(phone);
+            SetEmail(email);
+            IsActive = true;
+            SetTables(tables);
         }
 
         public Restaurant(string name, string keuken, string phone, string email, Location location)
@@ -29,6 +41,7 @@ namespace SolutionReservation.Domain.Model
             SetEmail(email);
             IsActive = true;
         }
+
         public int Id { get;private set; }
         public string Name { get; private set; }
         public Location Location { get; private set; }
@@ -36,7 +49,7 @@ namespace SolutionReservation.Domain.Model
         public string Phone { get; private set; }
         public string Email { get; private set; }
 
-        public ICollection<Table> Tables { get; private set; }
+        public List<Table> Tables { get; private set; }
 
         public bool IsActive { get; private set; }
 
@@ -74,6 +87,12 @@ namespace SolutionReservation.Domain.Model
         {
             if (!email.Contains('@')) throw new RestaurantException($"{nameof(Email)}: {email} is invalid");
             Email = email;
+        }
+
+        public void SetTables(List<Table> tables)
+        {
+            if (tables == null) throw new RestaurantException("Tables is invalid");
+            Tables = tables;
         }
     }
 }

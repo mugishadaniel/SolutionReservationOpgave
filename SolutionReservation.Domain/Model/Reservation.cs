@@ -9,13 +9,14 @@ namespace SolutionReservation.Domain.Model
 {
     public class Reservation
     {
-        public Reservation(int reservationNumber, Restaurant restaurant, User contactperson, int numberofSeats, DateTime dateTime)
+        public Reservation(int reservationNumber, Restaurant restaurant, User contactperson, int numberofSeats, DateTime dateTime,int tableNumber)
         {
             SetReservationNumber(reservationNumber);
             SetRestaurant(restaurant);
             SetContactperson(contactperson);
             SetNumberofSeats(numberofSeats);
             SetDateTime(dateTime);
+            SetTableNumber(tableNumber);
         }
         public Reservation(int numberofSeats, DateTime dateTime)
         {
@@ -23,7 +24,7 @@ namespace SolutionReservation.Domain.Model
             SetDateTime(dateTime);
         }
 
-
+         
         public int ReservationNumber { get; private set; }
         public Restaurant Restaurant { get; private set; }
         public User Contactperson { get; private set; }

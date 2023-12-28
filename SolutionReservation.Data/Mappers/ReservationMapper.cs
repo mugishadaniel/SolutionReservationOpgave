@@ -12,7 +12,7 @@ namespace SolutionReservation.Data.Mappers
     {
         public static Reservation ToReservation(ReservationEF reservationEF)
         {
-            return new Reservation(reservationEF.ReservationNumber, RestaurantMapper.ToRestaurant(reservationEF.Restaurant), UserMapper.ToUser(reservationEF.User), reservationEF.NumberofSeats, reservationEF.DateTime);
+            return new Reservation(reservationEF.ReservationNumber, RestaurantMapper.ToRestaurant(reservationEF.Restaurant), UserMapper.ToUser(reservationEF.User), reservationEF.NumberofSeats, reservationEF.DateTime,reservationEF.TableNumber);
         }
 
         public static ReservationEF ToReservationEF(Reservation reservation)

@@ -12,12 +12,16 @@ namespace SolutionReservation.Data.Mappers
     {
         public static Restaurant ToRestaurant(RestaurantEF restaurantEF)
         {
-            return new Restaurant(restaurantEF.Id,restaurantEF.Name, LocationMapper.ToLocation(restaurantEF.Location), restaurantEF.Keuken, restaurantEF.Phone, restaurantEF.Email,restaurantEF.IsActive);
+            List<Table> tables = restaurantEF.Tables.Select(t => TableMapper.Map(t)).ToList();
+
+            return new Restaurant(restaurantEF.Id,restaurantEF.Name, LocationMapper.ToLocation(restaurantEF.Location), restaurantEF.Keuken, restaurantEF.Phone, restaurantEF.Email,restaurantEF.IsActive,tables);
         }
 
         public static RestaurantEF ToRestaurantEF(Restaurant restaurant)
         {
-            return new RestaurantEF {Id = restaurant.Id, Name = restaurant.Name, Location = LocationMapper.ToLocationEF(restaurant.Location), Keuken = restaurant.Keuken, Phone = restaurant.Phone, Email = restaurant.Email,IsActive = restaurant.IsActive };
+            List<TableEF> tables = restaurant.Tables.Select(t => TableMapper.Map(t)).ToList();
+
+            return new RestaurantEF {Id = restaurant.Id, Name = restaurant.Name, Location = LocationMapper.ToLocationEF(restaurant.Location), Keuken = restaurant.Keuken, Phone = restaurant.Phone, Email = restaurant.Email,IsActive = restaurant.IsActive,Tables = tables };
         }
 
         public static RestaurantEF UpdateRestaurantEF(RestaurantEF restaurantEF, Restaurant restaurant)

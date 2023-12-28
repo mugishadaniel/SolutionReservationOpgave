@@ -15,7 +15,7 @@ namespace SolutionReservation.Data.Model
         public string Phone { get; set; }
         public string Email { get; set; }
 
-        public ICollection<TableEF> Tables { get; set; }
+        public List<TableEF> Tables { get; set; }
 
         public bool IsActive { get; set; }
     }

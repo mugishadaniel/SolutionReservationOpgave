@@ -40,6 +40,7 @@ namespace SolutionReservation.Data.Repositories
             {
                 RestaurantEF restaurantEF = await _context.Restaurants
                     .Include(r => r.Location) 
+                    .Include(r => r.Tables)
                     .FirstOrDefaultAsync(r => r.Id == restaurantId); 
                 return RestaurantMapper.ToRestaurant(restaurantEF);
             }
@@ -112,6 +113,7 @@ namespace SolutionReservation.Data.Repositories
                     .Include(r => r.User)
                     .Include(r => r.Restaurant.Location)
                     .Include(r => r.User.Location)
+                    .Include(r => r.Restaurant.Tables)
                     .Where(r => r.Restaurant.Id == restaurantId).ToListAsync();
                 List<Reservation> reservations = new List<Reservation>();
                 foreach (ReservationEF reservationEF in reservationEFs)
@@ -135,6 +137,7 @@ namespace SolutionReservation.Data.Repositories
                     .Include(r => r.Restaurant)
                     .Include(r => r.User)
                     .Include(r => r.Restaurant.Location)
+                    .Include(r => r.Restaurant.Tables)
                     .Include(r => r.User.Location)
                     .Where(r => r.Restaurant.Id == restaurantId
                             && DateOnly.FromDateTime(r.DateTime.Date) >= startDate
