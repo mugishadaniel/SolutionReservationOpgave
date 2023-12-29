@@ -24,30 +24,18 @@ namespace SolutionReservation.Domain.Managers
             DateTime requestedStartTime = reservation.DateTime;
             DateTime requestedEndTime = requestedStartTime.AddHours(1.5);
 
-            List<Reservation> overlappingReservations = await _adminRepository.GetReservationsPeriodAsync(
-                restaurantId,
-                DateOnly.FromDateTime(requestedStartTime),
-                DateOnly.FromDateTime(requestedEndTime));
-
-            bool isOverlapping = overlappingReservations.Any(existingReservation =>
-                reservationNumber != existingReservation.ReservationNumber &&
-                requestedStartTime < existingReservation.DateTime.AddHours(1.5) &&
-                requestedEndTime > existingReservation.DateTime);
-
-            if (isOverlapping)
+            var availableTable = await FindAvailableTable(restaurantId, reservation.NumberofSeats, requestedStartTime, requestedEndTime);
+            if (availableTable == null)
             {
-                var availableTable = await FindAvailableTable(restaurantId, reservation.NumberofSeats, requestedStartTime, requestedEndTime);
-                if (availableTable == null)
-                {
-                    return false; 
-                }
-
-                reservation.SetTableNumber(availableTable.TableID);
+                return false; // No suitable table available at the requested time.
             }
+
+            reservation.SetTableNumber(availableTable.TableID);
 
 
             return true;
         }
+
 
         private async Task<Table> FindAvailableTable(int restaurantId, int numberOfSeats, DateTime requestedStartTime, DateTime requestedEndTime)
         {
