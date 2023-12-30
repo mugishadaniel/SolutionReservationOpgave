@@ -17,7 +17,7 @@ namespace SolutionReservation.Domain.Managers
             _adminRepository = adminRepository;
         }
 
-        public async Task<bool> ExistsRestaurantAsync(int restaurantId)
+        public virtual async Task<bool> ExistsRestaurantAsync(int restaurantId)
         {
             try
             {
@@ -82,7 +82,7 @@ namespace SolutionReservation.Domain.Managers
             }
         }
 
-        public async Task<List<Reservation>> GetReservationsAsync(int restaurantId)
+        public virtual async Task<List<Reservation>> GetReservationsAsync(int restaurantId)
         {
             try
             {

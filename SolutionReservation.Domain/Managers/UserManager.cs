@@ -17,7 +17,7 @@ namespace SolutionReservation.Domain.Managers
             _userRepository = userRepository;
         }
 
-        public async Task<bool> ExistsAsync(int clientNumber)
+        public virtual async Task<bool> ExistsAsync(int clientNumber)
         {
             try
             {
@@ -30,7 +30,7 @@ namespace SolutionReservation.Domain.Managers
             }
         }
 
-        public async Task<User> GetUserAsync(int clientNumber)
+        public virtual async Task<User> GetUserAsync(int clientNumber)
         {
             try
             {
@@ -43,7 +43,7 @@ namespace SolutionReservation.Domain.Managers
             }
         }
 
-        public async Task<User> AddUserAsync(User user)
+        public virtual async Task<User> AddUserAsync(User user)
         {
             try
             {
@@ -69,7 +69,7 @@ namespace SolutionReservation.Domain.Managers
             }
         }
 
-        public async Task<User> DeleteUserAsync(int clientNumber)
+        public virtual async Task<User> DeleteUserAsync(int clientNumber)
         {
             try
             {
@@ -82,7 +82,7 @@ namespace SolutionReservation.Domain.Managers
             }
         }
 
-        public async Task<List<Restaurant>> SearchRestaurantAsync(string search)
+        public virtual async Task<List<Restaurant>> SearchRestaurantAsync(string search)
         {
             try
             {
@@ -173,7 +173,7 @@ namespace SolutionReservation.Domain.Managers
             }
         }
 
-        public async Task<List<Reservation>> SearchReservationsAsync(string search)
+        public virtual async Task<List<Reservation>> SearchReservationsAsync(string search)
         {
             try
             {

@@ -9,6 +9,7 @@ namespace SolutionReservation.Domain.Model
 {
     public class User
     {
+        public User() { }
         public User(int clientnumber, string name, string email, string phone, Location location,bool isactive)
         {
             Clientnumber = clientnumber;

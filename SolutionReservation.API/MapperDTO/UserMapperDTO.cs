@@ -10,6 +10,7 @@ namespace SolutionReservation.API.MapperDTO
             return new User(userInputDTO.Name,userInputDTO.Email,userInputDTO.Phone,new Location(userInputDTO.PostalCode,userInputDTO.Municipality,userInputDTO.Street,userInputDTO.HouseNumber));
         }
 
+
         public static UserInputDTO UpdateUser(User userFromDb,UserInputDTO user)
         {
             if (string.IsNullOrWhiteSpace(user.Name))user.Name = userFromDb.Name;

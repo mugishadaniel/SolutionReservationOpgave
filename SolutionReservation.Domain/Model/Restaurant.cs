@@ -42,6 +42,8 @@ namespace SolutionReservation.Domain.Model
             IsActive = true;
         }
 
+        public Restaurant() { }
+
         public int Id { get;private set; }
         public string Name { get; private set; }
         public Location Location { get; private set; }

@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.IdentityModel.Tokens;
 using SolutionReservation.API.DTO.Input;
 using SolutionReservation.API.MapperDTO;
 using SolutionReservation.Domain.Managers;
@@ -29,6 +30,7 @@ namespace SolutionReservation.API.Controllers
             {
 
                 var result = await _userManager.AddUserAsync(UserMapperDTO.ToDomain(user));
+                if (result == null) return BadRequest("User Could not be created");
                 return Ok(result);
             }
             catch (Exception ex)
@@ -95,6 +97,7 @@ namespace SolutionReservation.API.Controllers
             try
             {
                 var result = await _userManager.SearchRestaurantAsync(search);
+                if (result.IsNullOrEmpty()) return NotFound($"Restaurant with name {search} not found");
                 return Ok(result);
             }
             catch (Exception ex)
@@ -168,6 +171,7 @@ namespace SolutionReservation.API.Controllers
             try
             {
                 var result = await _userManager.SearchReservationsAsync(search);
+                if (result.IsNullOrEmpty()) return NotFound($"Reservation with name {search} not found");
                 return Ok(result);
             }
             catch (Exception ex)
