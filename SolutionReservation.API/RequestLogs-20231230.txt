@@ -77,3 +77,5 @@ System.InvalidOperationException: Multiple constructors accepting all given argu
 2023-12-30T07:03:00.9795333+01:00 0HN08VJR3VTOU:00000001 [INF] Request: GET /api/User/1 => 200 - User Type: User (6b9d3035)
 2023-12-30T07:03:10.2388252+01:00 0HN08VJR3VTOU:00000002 [INF] Request: GET /api/User/4 => 200 - User Type: User (2de87c39)
 2023-12-30T07:03:16.9868306+01:00 0HN08VJR3VTOU:00000003 [INF] Request: GET /api/User/5 => 200 - User Type: User (726ce2e5)
+2023-12-30T16:25:58.0337858+01:00 0HN099E2R9JVH:00000001 [INF] Request: POST /api/User => 200 - User Type: User (1d42b0a1)
+2023-12-30T16:26:14.6795498+01:00 0HN099E2R9JVH:00000002 [INF] Request: GET /api/User/6 => 200 - User Type: User (b29791eb)

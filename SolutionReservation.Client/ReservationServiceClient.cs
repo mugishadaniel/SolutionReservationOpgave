@@ -36,5 +36,17 @@ namespace SolutionReservation.Client
             }
             return null;
         }
+
+        public async Task<UseroutputDTO> AddUserAsync(UserInputDTO user)
+        {
+            UseroutputDTO useroutputDTO = null;
+            HttpResponseMessage response = await client.PostAsJsonAsync("api/User", user);
+            if (response.IsSuccessStatusCode)
+            {
+                useroutputDTO = await response.Content.ReadAsAsync<UseroutputDTO>();
+                return useroutputDTO;
+            }
+            return null;
+        }
     }
 }

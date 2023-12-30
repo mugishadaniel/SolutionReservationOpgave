@@ -16,4 +16,8 @@
     <ProjectReference Include="..\SolutionReservation.Domain\SolutionReservation.Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="UserinputDTOs\" />
+  </ItemGroup>
+
 </Project>
