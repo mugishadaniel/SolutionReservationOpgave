@@ -30,7 +30,7 @@ namespace SolutionReservation.Domain.Managers
             }
         }
 
-        public async Task<Restaurant> GetRestaurantAsync(int restaurantId)
+        public virtual async Task<Restaurant> GetRestaurantAsync(int restaurantId)
         {
             try
             {
@@ -43,7 +43,7 @@ namespace SolutionReservation.Domain.Managers
             }
         }
 
-        public async Task<Restaurant> AddRestaurantAsync(Restaurant restaurant)
+        public virtual async Task<Restaurant> AddRestaurantAsync(Restaurant restaurant)
         {
             try
             {
@@ -56,7 +56,7 @@ namespace SolutionReservation.Domain.Managers
             }
         }
 
-        public async Task<Restaurant> UpdateRestaurantAsync(int restaurantId, Restaurant restaurant)
+        public virtual async Task<Restaurant> UpdateRestaurantAsync(int restaurantId, Restaurant restaurant)
         {
             try
             {
@@ -95,7 +95,7 @@ namespace SolutionReservation.Domain.Managers
             }
         }
 
-        public async Task<List<Reservation>> GetReservationsAsync(int restaurantId, DateOnly startDate, DateOnly endDate)
+        public virtual async Task<List<Reservation>> GetReservationsAsync(int restaurantId, DateOnly startDate, DateOnly endDate)
         {
             try
             {

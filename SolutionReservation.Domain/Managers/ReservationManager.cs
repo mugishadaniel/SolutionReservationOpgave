@@ -19,7 +19,7 @@ namespace SolutionReservation.Domain.Managers
             _adminRepository = adminRepository;
         }
 
-        public async Task<bool> TryMakeReservationAsync(Reservation reservation, int restaurantId, int reservationNumber)
+        public virtual async Task<bool> TryMakeReservationAsync(Reservation reservation, int restaurantId, int reservationNumber)
         {
             DateTime requestedStartTime = reservation.DateTime;
             DateTime requestedEndTime = requestedStartTime.AddHours(1.5);

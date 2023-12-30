@@ -109,7 +109,7 @@ namespace SolutionReservation.Test
         }
 
         [Fact]
-        public async Task GetUserAsync_ShouldReturnNotFound()
+        public async Task UpdateUserAsyncShouldReturnOk()
         {
             // Arrange
             var iUserRepositoryMock = new Mock<IUserRepository>();
@@ -129,18 +129,51 @@ namespace SolutionReservation.Test
             };
             User user = UserMapperDTO.ToDomain(userinputDTO);
 
+            userManagerMock.Setup(manager => manager.UpdateUserAsync(1, user)).ReturnsAsync(user);
+            userManagerMock.Setup(manager => manager.GetUserAsync(1)).ReturnsAsync(user);
+            userManagerMock.Setup(manager => manager.ExistsAsync(1)).ReturnsAsync(true);
+
+            // Act
+            var result = await userController.UpdateUserAsync(1, userinputDTO);
+
+            // Assert
+            Assert.IsType<OkObjectResult>(result);
+        }
+
+        [Fact]
+        public async Task UpdateUserAsyncShouldReturnNotFound()
+        {
+            // Arrange
+            var iUserRepositoryMock = new Mock<IUserRepository>();
+            var userManagerMock = new Mock<UserManager>(iUserRepositoryMock.Object);
+            var AdminRepositoryMock = new Mock<IAdminRepository>();
+            var ReservationManagerMock = new Mock<ReservationManager>(iUserRepositoryMock.Object, AdminRepositoryMock.Object);
+            var userController = new UserController(userManagerMock.Object, ReservationManagerMock.Object);
+            var userinputDTO = new UserInputDTO()
+            {
+                Name = "Test",
+                Email = "test@",
+                Phone = "0123",
+                PostalCode = 0,
+                Municipality = "test",
+                Street = "test",
+                HouseNumber = "test"
+            };
+            User user = UserMapperDTO.ToDomain(userinputDTO);
+
+            userManagerMock.Setup(manager => manager.UpdateUserAsync(1, user)).ReturnsAsync(user);
             userManagerMock.Setup(manager => manager.GetUserAsync(1)).ReturnsAsync(user);
             userManagerMock.Setup(manager => manager.ExistsAsync(1)).ReturnsAsync(false);
 
             // Act
-            var result = await userController.GetUserAsync(1);
+            var result = await userController.UpdateUserAsync(1, userinputDTO);
 
             // Assert
             Assert.IsType<NotFoundObjectResult>(result);
         }
 
         [Fact]
-        public async Task DeleteUserAsyncReturnsOk()
+        public async Task DeleteUserAsyncShouldReturnOk()
         {
             // Arrange
             var iUserRepositoryMock = new Mock<IUserRepository>();
@@ -171,7 +204,7 @@ namespace SolutionReservation.Test
         }
 
         [Fact]
-        public async Task DeleteUserAsyncReturnsNotFound()
+        public async Task DeleteUserAsyncShouldReturnNotFound()
         {
             // Arrange
             var iUserRepositoryMock = new Mock<IUserRepository>();
@@ -201,6 +234,39 @@ namespace SolutionReservation.Test
             Assert.IsType<NotFoundObjectResult>(result);
         }
 
+
+        [Fact]
+        public async Task GetUserAsync_ShouldReturnNotFound()
+        {
+            // Arrange
+            var iUserRepositoryMock = new Mock<IUserRepository>();
+            var userManagerMock = new Mock<UserManager>(iUserRepositoryMock.Object);
+            var AdminRepositoryMock = new Mock<IAdminRepository>();
+            var ReservationManagerMock = new Mock<ReservationManager>(iUserRepositoryMock.Object, AdminRepositoryMock.Object);
+            var userController = new UserController(userManagerMock.Object, ReservationManagerMock.Object);
+            var userinputDTO = new UserInputDTO()
+            {
+                Name = "Test",
+                Email = "test@",
+                Phone = "0123",
+                PostalCode = 0,
+                Municipality = "test",
+                Street = "test",
+                HouseNumber = "test"
+            };
+            User user = UserMapperDTO.ToDomain(userinputDTO);
+
+            userManagerMock.Setup(manager => manager.GetUserAsync(1)).ReturnsAsync(user);
+            userManagerMock.Setup(manager => manager.ExistsAsync(1)).ReturnsAsync(false);
+
+            // Act
+            var result = await userController.GetUserAsync(1);
+
+            // Assert
+            Assert.IsType<NotFoundObjectResult>(result);
+        }
+
+
         [Fact]
         public async Task SearchRestaurantAsyncReturnsOk()
         {
@@ -211,7 +277,7 @@ namespace SolutionReservation.Test
             var ReservationManagerMock = new Mock<ReservationManager>(iUserRepositoryMock.Object, AdminRepositoryMock.Object);
             var userController = new UserController(userManagerMock.Object, ReservationManagerMock.Object);
             List<Restaurant> restaurants = new List<Restaurant>();
-            restaurants.Add(new Restaurant(1, "test", new Location(1, "test", "test",""), "test", "test", "test@", true, new List<Table>()));
+            restaurants.Add(new Restaurant(1, "test", new Location(1, "test", "test", ""), "test", "test", "test@", true, new List<Table>()));
 
             userManagerMock.Setup(manager => manager.SearchRestaurantAsync("test")).ReturnsAsync(restaurants);
 
@@ -243,6 +309,320 @@ namespace SolutionReservation.Test
         }
 
         [Fact]
+        public async Task AddReservationAsyncReturnsOk()
+        {
+            // Arrange
+            var iUserRepositoryMock = new Mock<IUserRepository>();
+            var userManagerMock = new Mock<UserManager>(iUserRepositoryMock.Object);
+            var AdminRepositoryMock = new Mock<IAdminRepository>();
+            var ReservationManagerMock = new Mock<ReservationManager>(iUserRepositoryMock.Object, AdminRepositoryMock.Object);
+            var userController = new UserController(userManagerMock.Object, ReservationManagerMock.Object);
+            var userinputDTO = new UserInputDTO()
+            {
+                Name = "Test",
+                Email = "test@",
+                Phone = "0123",
+                PostalCode = 0,
+                Municipality = "test",
+                Street = "test",
+                HouseNumber = "test"
+            };
+            User user = UserMapperDTO.ToDomain(userinputDTO);
+            Table table = new Table(1, 1, 1);
+            List<Table> tables = new List<Table>();
+            tables.Add(table);
+            var restaurant = new Restaurant(1, "test", new Location(1, "test", "test", ""), "test", "test", "test@", true, tables);
+            var reservation = new Reservation(1, restaurant, user, 1, new DateTime(2025, 1, 1), 1);
+            var reservationInputDTO = new ReservationInputDTO()
+            {
+                NumberofSeats = 1,
+                DateTime = new DateTime(2025, 1, 1)
+            };
+
+            userManagerMock.Setup(manager => manager.AddReservationAsync(1, 1, reservation)).ReturnsAsync(reservation);
+            userManagerMock.Setup(manager => manager.ExistsAsync(1)).ReturnsAsync(true);
+            userManagerMock.Setup(manager => manager.ExistsRestaurantAsync(1)).ReturnsAsync(true);
+            ReservationManagerMock.Setup(manager => manager.TryMakeReservationAsync(
+                    It.IsAny<Reservation>(),
+                    It.IsAny<int>(),
+                    It.IsAny<int>())
+                    ).ReturnsAsync(true);
+
+            // Act
+            var result = await userController.AddReservationAsync(1, 1, reservationInputDTO);
+
+            // Assert
+            Assert.IsType<OkObjectResult>(result);
+        }
+
+        [Fact]
+        public async Task AddReservationAsyncReturnsBadRequest()
+        {
+            // Arrange
+            var iUserRepositoryMock = new Mock<IUserRepository>();
+            var userManagerMock = new Mock<UserManager>(iUserRepositoryMock.Object);
+
+            var AdminRepositoryMock = new Mock<IAdminRepository>();
+            var ReservationManagerMock = new Mock<ReservationManager>(iUserRepositoryMock.Object, AdminRepositoryMock.Object);
+
+            var userController = new UserController(userManagerMock.Object, ReservationManagerMock.Object);
+
+            var userinputDTO = new UserInputDTO()
+            {
+                Name = "Test",
+                Email = "test@",
+                Phone = "0123",
+                PostalCode = 0,
+                Municipality = "test",
+                Street = "test",
+                HouseNumber = "test"
+            };
+
+            User user = UserMapperDTO.ToDomain(userinputDTO);
+
+            Table table = new Table(1, 1, 1);
+            List<Table> tables = new List<Table>();
+            tables.Add(table);
+
+            var restaurant = new Restaurant(1, "test", new Location(1, "test", "test", ""), "test", "test", "test@", true, tables);
+
+            var reservation = new Reservation(1, restaurant, user, 1, new DateTime(2025, 1, 1), 1);
+
+            var reservationInputDTO = new ReservationInputDTO()
+            {
+                NumberofSeats = 1,
+                DateTime = new DateTime(2025, 1, 1)
+            };
+
+            userManagerMock.Setup(manager => manager.AddReservationAsync(1, 1, reservation)).ReturnsAsync(reservation);
+            userManagerMock.Setup(manager => manager.ExistsAsync(1)).ReturnsAsync(true);
+            userManagerMock.Setup(manager => manager.ExistsRestaurantAsync(1)).ReturnsAsync(true);
+            ReservationManagerMock.Setup(manager => manager.TryMakeReservationAsync(
+                                   It.IsAny<Reservation>(),
+                                                      It.IsAny<int>(),
+                                                                         It.IsAny<int>())
+                               ).ReturnsAsync(false);
+
+            // Act
+            var result = await userController.AddReservationAsync(1, 1, reservationInputDTO);
+
+            // Assert
+            Assert.IsType<BadRequestObjectResult>(result);
+        }
+
+
+        [Fact]
+        public async Task UpdateReservationAsyncReturnsOK()
+        {
+            // Arrange
+            var iUserRepositoryMock = new Mock<IUserRepository>();
+            var userManagerMock = new Mock<UserManager>(iUserRepositoryMock.Object);
+
+            var AdminRepositoryMock = new Mock<IAdminRepository>();
+            var ReservationManagerMock = new Mock<ReservationManager>(iUserRepositoryMock.Object, AdminRepositoryMock.Object);
+
+            var userController = new UserController(userManagerMock.Object, ReservationManagerMock.Object);
+
+            var userinputDTO = new UserInputDTO()
+            {
+                Name = "Test",
+                Email = "test@",
+                Phone = "0123",
+                PostalCode = 0,
+                Municipality = "test",
+                Street = "test",
+                HouseNumber = "test"
+            };
+
+            User user = UserMapperDTO.ToDomain(userinputDTO);
+
+            Table table = new Table(1, 1, 1);
+            List<Table> tables = new List<Table>();
+            tables.Add(table);
+
+            var restaurant = new Restaurant(1, "test", new Location(1, "test", "test", ""), "test", "test", "test@", true, tables);
+
+            var reservation = new Reservation(1, restaurant, user, 1, new DateTime(2025, 1, 1), 1);
+
+            var reservationInputDTO = new ReservationInputDTO()
+            {
+                NumberofSeats = 1,
+                DateTime = new DateTime(2025, 1, 1)
+            };
+
+            userManagerMock.Setup(manager => manager.UpdateReservationAsync(1, reservation)).ReturnsAsync(reservation);
+            userManagerMock.Setup(manager => manager.GetReservationAsync(1)).ReturnsAsync(reservation);
+            userManagerMock.Setup(manager => manager.ExistsReservation(1)).ReturnsAsync(true);
+            userManagerMock.Setup(manager => manager.ExistsAsync(1)).ReturnsAsync(true);
+            userManagerMock.Setup(manager => manager.ExistsRestaurantAsync(1)).ReturnsAsync(true);
+            ReservationManagerMock.Setup(manager => manager.TryMakeReservationAsync(
+                   It.IsAny<Reservation>(),
+                    It.IsAny<int>(), It.IsAny<int>())
+                   ).ReturnsAsync(true);
+
+            // Act
+            var result = await userController.UpdateReservationAsync(1, reservationInputDTO);
+
+            // Assert
+            Assert.IsType<OkObjectResult>(result);
+        }
+
+
+        [Fact]
+        public async Task UpdateReservationAsyncReturnsBadRequest()
+        {
+            // Arrange
+            var iUserRepositoryMock = new Mock<IUserRepository>();
+            var userManagerMock = new Mock<UserManager>(iUserRepositoryMock.Object);
+
+            var AdminRepositoryMock = new Mock<IAdminRepository>();
+            var ReservationManagerMock = new Mock<ReservationManager>(iUserRepositoryMock.Object, AdminRepositoryMock.Object);
+
+            var userController = new UserController(userManagerMock.Object, ReservationManagerMock.Object);
+
+            var userinputDTO = new UserInputDTO()
+            {
+                Name = "Test",
+                Email = "test@",
+                Phone = "0123",
+                PostalCode = 0,
+                Municipality = "test",
+                Street = "test",
+                HouseNumber = "test"
+            };
+
+            User user = UserMapperDTO.ToDomain(userinputDTO);
+
+            Table table = new Table(1, 1, 1);
+            List<Table> tables = new List<Table>();
+            tables.Add(table);
+
+            var restaurant = new Restaurant(1, "test", new Location(1, "test", "test", ""), "test", "test", "test@", true, tables);
+
+            var reservation = new Reservation(1, restaurant, user, 1, new DateTime(2025, 1, 1), 1);
+
+            var reservationInputDTO = new ReservationInputDTO()
+            {
+                NumberofSeats = 1,
+                DateTime = new DateTime(2025, 1, 1)
+            };
+
+            userManagerMock.Setup(manager => manager.UpdateReservationAsync(1, reservation)).ReturnsAsync(reservation);
+            userManagerMock.Setup(manager => manager.GetReservationAsync(1)).ReturnsAsync(reservation);
+            userManagerMock.Setup(manager => manager.ExistsReservation(1)).ReturnsAsync(true);
+            userManagerMock.Setup(manager => manager.ExistsAsync(1)).ReturnsAsync(true);
+            userManagerMock.Setup(manager => manager.ExistsRestaurantAsync(1)).ReturnsAsync(true);
+            ReservationManagerMock.Setup(manager => manager.TryMakeReservationAsync(
+                                  It.IsAny<Reservation>(),
+                                                     It.IsAny<int>(), It.IsAny<int>())
+                              ).ReturnsAsync(false);
+
+            // Act
+            var result = await userController.UpdateReservationAsync(1, reservationInputDTO);
+
+            // Assert
+            Assert.IsType<BadRequestObjectResult>(result);
+        }
+
+        [Fact]
+        public async Task DeleteReservationAsyncReturnsOK()
+        {
+            // Arrange
+            var iUserRepositoryMock = new Mock<IUserRepository>();
+            var userManagerMock = new Mock<UserManager>(iUserRepositoryMock.Object);
+
+            var AdminRepositoryMock = new Mock<IAdminRepository>();
+            var ReservationManagerMock = new Mock<ReservationManager>(iUserRepositoryMock.Object, AdminRepositoryMock.Object);
+
+            var userController = new UserController(userManagerMock.Object, ReservationManagerMock.Object);
+
+            var userinputDTO = new UserInputDTO()
+            {
+                Name = "Test",
+                Email = "test@",
+                Phone = "0123",
+                PostalCode = 0,
+                Municipality = "test",
+                Street = "test",
+                HouseNumber = "test"
+            };
+
+            User user = UserMapperDTO.ToDomain(userinputDTO);
+
+            Table table = new Table(1, 1, 1);
+            List<Table> tables = new List<Table>();
+            tables.Add(table);
+
+            var restaurant = new Restaurant(1, "test", new Location(1, "test", "test", ""), "test", "test", "test@", true, tables);
+
+            var reservation = new Reservation(1, restaurant, user, 1, new DateTime(2025, 1, 1), 1);
+
+            var reservationInputDTO = new ReservationInputDTO()
+            {
+                NumberofSeats = 1,
+                DateTime = new DateTime(2025, 1, 1)
+            };
+
+            userManagerMock.Setup(manager => manager.DeleteReservationAsync(1)).ReturnsAsync(reservation);
+            userManagerMock.Setup(manager => manager.ExistsReservation(1)).ReturnsAsync(true);
+
+            // Act
+            var result = await userController.DeleteReservationAsync(1);
+
+            // Assert
+            Assert.IsType<OkObjectResult>(result);
+        }
+
+        [Fact]
+        public async Task DeleteReservationAsyncReturnsNotFound()
+        {
+            // Arrange
+            var iUserRepositoryMock = new Mock<IUserRepository>();
+            var userManagerMock = new Mock<UserManager>(iUserRepositoryMock.Object);
+
+            var AdminRepositoryMock = new Mock<IAdminRepository>();
+            var ReservationManagerMock = new Mock<ReservationManager>(iUserRepositoryMock.Object, AdminRepositoryMock.Object);
+
+            var userController = new UserController(userManagerMock.Object, ReservationManagerMock.Object);
+
+            var userinputDTO = new UserInputDTO()
+            {
+                Name = "Test",
+                Email = "test@",
+                Phone = "0123",
+                PostalCode = 0,
+                Municipality = "test",
+                Street = "test",
+                HouseNumber = "test"
+            };
+
+            User user = UserMapperDTO.ToDomain(userinputDTO);
+
+            Table table = new Table(1, 1, 1);
+            List<Table> tables = new List<Table>();
+            tables.Add(table);
+
+            var restaurant = new Restaurant(1, "test", new Location(1, "test", "test", ""), "test", "test", "test@", true, tables);
+
+            var reservation = new Reservation(1, restaurant, user, 1, new DateTime(2025, 1, 1), 1);
+
+            var reservationInputDTO = new ReservationInputDTO()
+            {
+                NumberofSeats = 1,
+                DateTime = new DateTime(2025, 1, 1)
+            };
+
+            userManagerMock.Setup(manager => manager.DeleteReservationAsync(1)).ReturnsAsync(reservation);
+            userManagerMock.Setup(manager => manager.ExistsReservation(1)).ReturnsAsync(false);
+
+            // Act
+            var result = await userController.DeleteReservationAsync(1);
+
+            // Assert
+            Assert.IsType<NotFoundObjectResult>(result);
+        }
+
+        [Fact]
         public async Task SearchReservationsAsyncReturnsOk()
         {
             // Arrange
@@ -253,8 +633,8 @@ namespace SolutionReservation.Test
             var userController = new UserController(userManagerMock.Object, ReservationManagerMock.Object);
             var user = new User(1, "test", "test", "test", new Location(1, "test", "test", ""), true);
             List<Reservation> reservations = new List<Reservation>();
-            var restaurant = new Restaurant(1, "test", new Location(1, "test", "test",""), "test", "test", "test@", true, new List<Table>());
-            reservations.Add(new Reservation(1,restaurant, user,1, new DateTime(2025, 1, 1), 1));
+            var restaurant = new Restaurant(1, "test", new Location(1, "test", "test", ""), "test", "test", "test@", true, new List<Table>());
+            reservations.Add(new Reservation(1, restaurant, user, 1, new DateTime(2025, 1, 1), 1));
 
             userManagerMock.Setup(manager => manager.SearchReservationsAsync("test")).ReturnsAsync(reservations);
 

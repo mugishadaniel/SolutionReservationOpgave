@@ -56,7 +56,7 @@ namespace SolutionReservation.Domain.Managers
             }
         }
 
-        public async Task<User> UpdateUserAsync(int clientNumber,User user)
+        public virtual async Task<User> UpdateUserAsync(int clientNumber,User user)
         {
             try
             {
@@ -95,7 +95,7 @@ namespace SolutionReservation.Domain.Managers
             }
         }
 
-        public async Task<bool> ExistsRestaurantAsync(int restaurantId)
+        public virtual async Task<bool> ExistsRestaurantAsync(int restaurantId)
         {
             try
             {
@@ -108,7 +108,7 @@ namespace SolutionReservation.Domain.Managers
             }
         }
 
-        public async Task<Reservation> AddReservationAsync(int clientNumber, int restaurantId,Reservation reservation)
+        public virtual async Task<Reservation> AddReservationAsync(int clientNumber, int restaurantId,Reservation reservation)
         {
             try
             {
@@ -121,7 +121,7 @@ namespace SolutionReservation.Domain.Managers
             }
         }
 
-        public async Task<Reservation> UpdateReservationAsync(int reservationId, Reservation reservation)
+        public virtual async Task<Reservation> UpdateReservationAsync(int reservationId, Reservation reservation)
         {
             try
             {
@@ -134,7 +134,7 @@ namespace SolutionReservation.Domain.Managers
             }
         }
 
-        public async Task<bool> ExistsReservation(int reservationId)
+        public virtual async Task<bool> ExistsReservation(int reservationId)
         {
             try
             {
@@ -147,7 +147,7 @@ namespace SolutionReservation.Domain.Managers
             }
         }
 
-        public async Task<Reservation> GetReservationAsync(int reservationId)
+        public virtual async Task<Reservation> GetReservationAsync(int reservationId)
         {
             try
             {
@@ -160,7 +160,7 @@ namespace SolutionReservation.Domain.Managers
             }
         }
 
-        public async Task<Reservation> DeleteReservationAsync(int reservationId)
+        public virtual async Task<Reservation> DeleteReservationAsync(int reservationId)
         {
             try
             {

@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.IdentityModel.Tokens;
 using SolutionReservation.API.DTO.Input;
 using SolutionReservation.API.MapperDTO;
 using SolutionReservation.Domain.Managers;
@@ -24,6 +25,7 @@ namespace SolutionReservation.API.Controllers
             try
             {             
                 var result = await _adminManager.AddRestaurantAsync(RestaurantMapperDTO.ToDomain(restaurant));
+                if (result == null) return BadRequest("Restaurant not added");
                 return Ok(result);
             }
             catch (Exception ex)
@@ -91,6 +93,7 @@ namespace SolutionReservation.API.Controllers
             {
                 if (!await _adminManager.ExistsRestaurantAsync(restaurantId)) return NotFound($"Restaurant with ID {restaurantId} not found");
                 var result = await _adminManager.GetReservationsAsync(restaurantId, start, end);
+                if (result.IsNullOrEmpty()) return NotFound($"No reservations found between {start} and {end}");
                 return Ok(result);
             }
             catch (Exception ex)
