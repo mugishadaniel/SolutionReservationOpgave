@@ -2,6 +2,7 @@ using SolutionReservation.Domain.Interfaces;
 using SolutionReservation.Data.Repositories;
 using SolutionReservation.Domain.Managers;
 using SolutionReservation.Data.Context;
+using SolutionReservation.API.Middleware;
 
 namespace SolutionReservation.API
 {
@@ -34,7 +35,7 @@ namespace SolutionReservation.API
             }
 
             app.UseAuthorization();
-
+            app.UseMiddleware<RequestLoggingMiddleware>();
 
             app.MapControllers();
 

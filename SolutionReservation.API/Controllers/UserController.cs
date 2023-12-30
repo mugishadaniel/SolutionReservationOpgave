@@ -15,6 +15,7 @@ namespace SolutionReservation.API.Controllers
     {
         private UserManager _userManager;
         private ReservationManager _reservationManager;
+
         public UserController(UserManager userManager, ReservationManager reservationManager)
         {
             _userManager = userManager;
@@ -22,7 +23,6 @@ namespace SolutionReservation.API.Controllers
         }
 
         [HttpPost]
-        [Route("User")]
         public async Task<IActionResult> AddUserAsync(UserInputDTO user)
         {
             try
@@ -38,9 +38,10 @@ namespace SolutionReservation.API.Controllers
         }
 
         [HttpGet]
-        [Route("User/{clientNumber}")]
+        [Route("{clientNumber}")]
         public async Task<IActionResult> GetUserAsync(int clientNumber)
         {
+
             try
             {
                 if (!await _userManager.ExistsAsync(clientNumber)) return NotFound($"User with ID {clientNumber} not found");
@@ -54,7 +55,7 @@ namespace SolutionReservation.API.Controllers
         }
 
         [HttpPut]
-        [Route("User/{clientNumber}")]
+        [Route("{clientNumber}")]
         public async Task<IActionResult> UpdateUserAsync(int clientNumber, UserInputDTO user)
         {
             try
@@ -72,7 +73,7 @@ namespace SolutionReservation.API.Controllers
         }
 
         [HttpDelete]
-        [Route("User/{clientNumber}")]
+        [Route("{clientNumber}")]
         public async Task<IActionResult> DeleteUserAsync(int clientNumber)
         {
             try

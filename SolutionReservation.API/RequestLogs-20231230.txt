@@ -1,0 +1,3 @@
+2023-12-30T04:23:31.7114037+01:00 0HN08SQL9JKUO:00000001 [INF] Request: GET /api/User/1 => 200 - User Type: User (6b9d3035)
+2023-12-30T04:26:05.4848148+01:00 0HN08SS37EFU6:00000008 [INF] Request: GET /api/Admin/Reservations/9 => 200 - User Type: Administrator (41805221)
+2023-12-30T04:26:20.0932821+01:00 0HN08SS37EFU6:00000009 [INF] Request: GET /api/User/Restaurant/turkish => 200 - User Type: User (d374a487)
